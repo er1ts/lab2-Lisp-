@@ -60,5 +60,4 @@
   (check-task "Test 2.2" nil #'list-set-intersection '( (a b c) (x y z) ) nil)
   (check-task "Test 2.3" nil #'list-set-intersection '( (apple banana) (banana cherry) ) '(banana)))
 ```
-(test-lab2)
 
