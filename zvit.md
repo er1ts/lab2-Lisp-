@@ -35,29 +35,57 @@
 ```lisp
 (defun list-set-intersection (set1 set2)
   (cond ((null set1) nil)
-        ;; Якщо перший елемент першої множини є в другій — додаємо його до результату
         ((member (car set1) set2)
          (cons (car set1) (list-set-intersection (cdr set1) set2)))
-        ;; Якщо немає — просто переходимо до наступного елемента
         (t (list-set-intersection (cdr set1) set2))))
 ```
 ## Модульне тестування 
 ```Lisp
 (defun check-task (name input expected-fn input-args expected)
-  "Утиліта для перевірки результатів"
   (let ((result (apply expected-fn input-args)))
     (format t "~:[FAILED~;passed~]... ~a~%   Input: ~a~%   Expected: ~a~%   Result: ~a~%"
             (equal result expected) name input-args expected result)))
 
 (defun test-lab2 ()
-  (format t "--- Testing remove-seconds-and-thirds ---~%")
+  (format t " Testing remove-seconds-and-thirds ~%")
   (check-task "Test 1.1" nil #'remove-seconds-and-thirds '( (a b c d e f g) ) '(a d g))
   (check-task "Test 1.2" nil #'remove-seconds-and-thirds '( (1 2 3 4 5) ) '(1 4))
   (check-task "Test 1.3" nil #'remove-seconds-and-thirds '( nil ) nil)
 
-  (format t "~%--- Testing list-set-intersection ---~%")
+  (format t "~% Testing list-set-intersection ~%")
   (check-task "Test 2.1" nil #'list-set-intersection '( (1 2 3 4) (3 4 5 6) ) '(3 4))
   (check-task "Test 2.2" nil #'list-set-intersection '( (a b c) (x y z) ) nil)
   (check-task "Test 2.3" nil #'list-set-intersection '( (apple banana) (banana cherry) ) '(banana)))
 ```
+### Тестування
+```lisp
+CL-USER> (test-lab2)
+ Testing remove-seconds-and-thirds
+passed... Test 1.1
+   Input: ((A B C D E F G))
+   Expected: (A D G)
+   Result: (A D G)
+passed... Test 1.2
+   Input: ((1 2 3 4 5))
+   Expected: (1 4)
+   Result: (1 4)
+passed... Test 1.3
+   Input: (NIL)
+   Expected: NIL
+   Result: NIL
 
+Testing list-set-intersection 
+passed... Test 2.1
+   Input: ((1 2 3 4) (3 4 5 6))
+   Expected: (3 4)
+   Result: (3 4)
+passed... Test 2.2
+   Input: ((A B C) (X Y Z))
+   Expected: NIL
+   Result: NIL
+passed... Test 2.3
+   Input: ((APPLE BANANA) (BANANA CHERRY))
+   Expected: (BANANA)
+   Result: (BANANA)
+NIL
+```
