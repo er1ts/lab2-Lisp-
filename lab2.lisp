@@ -1,0 +1,25 @@
+(defun remove-seconds-and-thirds (lst)
+  (cond ((null lst) nil)
+        (t (cons (car lst) 
+                 (remove-seconds-and-thirds (cdddr lst))))))
+(defun list-set-intersection (set1 set2)
+  (cond ((null set1) nil)
+        ((member (car set1) set2)
+         (cons (car set1) (list-set-intersection (cdr set1) set2)))
+        (t (list-set-intersection (cdr set1) set2))))
+(defun check-task (name input expected-fn input-args expected)
+  "Утиліта для перевірки результатів"
+  (let ((result (apply expected-fn input-args)))
+    (format t "~:[FAILED~;passed~]... ~a~%   Input: ~a~%   Expected: ~a~%   Result: ~a~%"
+            (equal result expected) name input-args expected result)))
+
+(defun test-lab2 ()
+  (format t "--- Testing remove-seconds-and-thirds ---~%")
+  (check-task "Test 1.1" nil #'remove-seconds-and-thirds '( (a b c d e f g) ) '(a d g))
+  (check-task "Test 1.2" nil #'remove-seconds-and-thirds '( (1 2 3 4 5) ) '(1 4))
+  (check-task "Test 1.3" nil #'remove-seconds-and-thirds '( nil ) nil)
+
+  (format t "~%--- Testing list-set-intersection ---~%")
+  (check-task "Test 2.1" nil #'list-set-intersection '( (1 2 3 4) (3 4 5 6) ) '(3 4))
+  (check-task "Test 2.2" nil #'list-set-intersection '( (a b c) (x y z) ) nil)
+  (check-task "Test 2.3" nil #'list-set-intersection '( (apple banana) (banana cherry) ) '(banana)))
